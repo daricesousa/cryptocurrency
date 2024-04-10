@@ -54,13 +54,13 @@ class _CurrencyPageState extends State<CurrencyPage> {
     return Scaffold(
         appBar: appBarDynamic(),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: selected.isEmpty
-            ? FloatingActionButton.extended(
-                onPressed: () {},
-                label: const Text("Favoritar"),
-                icon: const Icon(Icons.star),
-              )
-            : null,
+        // floatingActionButton: selected.isEmpty
+        //     ? FloatingActionButton.extended(
+        //         onPressed: () {},
+        //         label: const Text("Favoritar"),
+        //         icon: const Icon(Icons.star),
+        //       )
+        //     : null,
         body: ListView.separated(
             itemBuilder: (context, current) {
               final currency = table[current];

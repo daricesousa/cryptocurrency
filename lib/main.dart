@@ -1,4 +1,4 @@
-import 'package:cryptocurrency/app/pages/currency_page.dart';
+import 'package:cryptocurrency/app/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const CurrencyPage(),
+      home: const HomePage(),
     );
   }
 }
