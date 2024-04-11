@@ -1,8 +1,9 @@
 import 'package:cryptocurrency/app/models/currency_model.dart';
-import 'package:cryptocurrency/app/pages/currency_detail_page.dart';
 import 'package:cryptocurrency/app/repositories/currency_repository.dart';
+import 'package:cryptocurrency/app/repositories/favorites_repository.dart';
+import 'package:cryptocurrency/app/widgets/currency_card.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class CurrencyPage extends StatefulWidget {
   const CurrencyPage({super.key});
@@ -13,13 +14,14 @@ class CurrencyPage extends StatefulWidget {
 
 class _CurrencyPageState extends State<CurrencyPage> {
   final table = CurrencyRepository.table;
-  final real = NumberFormat.currency(locale: 'pt_BR', name: 'R\$');
-  final List<CurrencyModel> selected = [];
 
-  void showCurrencyDetail(CurrencyModel currency) {
-    Navigator.push(context, MaterialPageRoute(builder: (_) {
-      return CurrencyDetailPage(currency: currency);
-    }));
+  final List<CurrencyModel> selected = [];
+  late FavoritesRepository favoritesRepository;
+
+  void clearSelected() {
+    setState(() {
+      selected.clear();
+    });
   }
 
   AppBar appBarDynamic() {
@@ -51,32 +53,28 @@ class _CurrencyPageState extends State<CurrencyPage> {
 
   @override
   Widget build(BuildContext context) {
+    // favoritesRepository = Provider.of<FavoritesRepository>(context);
+    favoritesRepository = context.watch<FavoritesRepository>();
     return Scaffold(
         appBar: appBarDynamic(),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        // floatingActionButton: selected.isEmpty
-        //     ? FloatingActionButton.extended(
-        //         onPressed: () {},
-        //         label: const Text("Favoritar"),
-        //         icon: const Icon(Icons.star),
-        //       )
-        //     : null,
+        floatingActionButton: selected.isNotEmpty
+            ? FloatingActionButton.extended(
+                onPressed: () {
+                  favoritesRepository.saveAll(selected);
+                  clearSelected();
+                },
+                label: const Text("Favoritar"),
+                icon: const Icon(Icons.star),
+              )
+            : null,
         body: ListView.separated(
             itemBuilder: (context, current) {
               final currency = table[current];
-              return ListTile(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                selected: selected.contains(currency),
-                selectedTileColor: Colors.indigo[50],
-                leading: selected.contains(currency)
-                    ? const CircleAvatar(child: Icon(Icons.check))
-                    : SizedBox(width: 40, child: Image.asset(currency.icon)),
-                title: Text(currency.name,
-                    style: const TextStyle(
-                        fontSize: 17, fontWeight: FontWeight.bold)),
-                trailing: Text(real.format(currency.price)),
+              return CurrencyCard(
+                currency: currency,
+                isFavorite: favoritesRepository.list.contains(currency),
+                isSelected: selected.contains(currency),
                 onLongPress: () {
                   setState(() {
                     if (selected.contains(currency)) {
@@ -86,7 +84,6 @@ class _CurrencyPageState extends State<CurrencyPage> {
                     }
                   });
                 },
-                onTap: () => showCurrencyDetail(currency),
               );
             },
             separatorBuilder: (_, __) => const Divider(),

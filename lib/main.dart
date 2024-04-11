@@ -1,8 +1,13 @@
 import 'package:cryptocurrency/app/pages/home_page.dart';
+import 'package:cryptocurrency/app/repositories/favorites_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+    create: (context) => FavoritesRepository(),
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
