@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 class CurrencyCard extends StatefulWidget {
   final bool isSelected;
   final CurrencyModel currency;
+  final NumberFormat numberFormat;
   final void Function()? onLongPress;
 
   final bool isFavorite;
@@ -15,6 +16,7 @@ class CurrencyCard extends StatefulWidget {
     required this.currency,
     this.isFavorite = false,
     this.onLongPress,
+    required this.numberFormat,
   });
 
   @override
@@ -27,8 +29,6 @@ class _CurrencyCardState extends State<CurrencyCard> {
       return CurrencyDetailPage(currency: currency);
     }));
   }
-
-  final real = NumberFormat.currency(locale: 'pt_BR', name: 'R\$');
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,7 @@ class _CurrencyCardState extends State<CurrencyCard> {
             const Icon(Icons.star, color: Colors.amber, size: 16),
         ],
       ),
-      trailing: Text(real.format(widget.currency.price)),
+      trailing: Text(widget.numberFormat.format(widget.currency.price)),
       onLongPress: () => widget.onLongPress?.call(),
       onTap: () => showCurrencyDetail(widget.currency),
     );
