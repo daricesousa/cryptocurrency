@@ -73,7 +73,7 @@ class _CurrencyPageState extends State<CurrencyPage> {
               return CurrencyCard(
                 numberFormat: numberFormat,
                 currency: currency,
-                isFavorite: favoritesRepository.list.contains(currency),
+                isFavorite: favoritesRepository.isCurrencyFavorite(currency),
                 isSelected: selected.contains(currency),
                 onLongPress: () {
                   setState(() {
