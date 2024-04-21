@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppSettings extends ChangeNotifier {
@@ -37,4 +38,9 @@ class AppSettings extends ChangeNotifier {
     // await box.put('name', name);
     _readLocale();
   }
+
+  NumberFormat get numberFormat => NumberFormat.currency(
+        locale: locale,
+        name: nameLocale,
+      );
 }

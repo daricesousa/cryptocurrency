@@ -21,11 +21,6 @@ class _CurrencyPageState extends State<CurrencyPage> {
   late AppSettings settings;
   late NumberFormat numberFormat;
 
-  void localeSettings() {
-    numberFormat = NumberFormat.currency(
-        locale: settings.locale, name: settings.nameLocale);
-  }
-
   void clearSelected() {
     setState(() {
       selected.clear();
@@ -53,7 +48,7 @@ class _CurrencyPageState extends State<CurrencyPage> {
   Widget build(BuildContext context) {
     settings = Provider.of<AppSettings>(context);
     favoritesRepository = context.watch<FavoritesRepository>();
-    localeSettings();
+    numberFormat = settings.numberFormat;
     return Scaffold(
         appBar: appBarDynamic(),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

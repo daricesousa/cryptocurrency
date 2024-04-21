@@ -1,3 +1,4 @@
+import 'package:cryptocurrency/app/pages/count_page.dart';
 import 'package:cryptocurrency/app/pages/currency_page.dart';
 import 'package:cryptocurrency/app/pages/favorite_currency_page.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +39,10 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.star),
             label: "Favoritas",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: "Conta",
           )
         ],
         onTap: (page) {
@@ -51,6 +56,7 @@ class _HomePageState extends State<HomePage> {
         children: const [
           CurrencyPage(),
           FavoriteCurrencyPage(),
+          CountPage(),
         ],
       ),
     );
