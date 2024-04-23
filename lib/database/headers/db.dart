@@ -26,11 +26,8 @@ class DB {
 
   Future _onCreate(Database db, int version) async {
     await db.execute(_account);
-
     await db.execute(_wallet);
-
     await db.execute(_history);
-
     await db.insert('account', {'balance': 0});
   }
 

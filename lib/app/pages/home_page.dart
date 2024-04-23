@@ -1,6 +1,7 @@
 import 'package:cryptocurrency/app/pages/count_page.dart';
 import 'package:cryptocurrency/app/pages/currency_page.dart';
 import 'package:cryptocurrency/app/pages/favorite_currency_page.dart';
+import 'package:cryptocurrency/app/pages/wallet_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -30,6 +31,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         currentIndex: currencyPage,
         items: const [
           BottomNavigationBarItem(
@@ -39,6 +41,10 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.star),
             label: "Favoritas",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_balance_wallet),
+            label: "Carteira",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
@@ -56,6 +62,7 @@ class _HomePageState extends State<HomePage> {
         children: const [
           CurrencyPage(),
           FavoriteCurrencyPage(),
+          WalletPage(),
           CountPage(),
         ],
       ),

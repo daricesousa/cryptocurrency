@@ -1,4 +1,4 @@
-import 'package:cryptocurrency/app/repositories/count_repository.dart';
+import 'package:cryptocurrency/app/repositories/account_repository.dart';
 import 'package:cryptocurrency/app/widgets/deposit_dialog.dart';
 import 'package:cryptocurrency/configs/app_settings.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +20,7 @@ class _CountPageState extends State<CountPage> {
   @override
   Widget build(BuildContext context) {
     final numberFormat = context.watch<AppSettings>().numberFormat;
-    final count = context.watch<CountRepository>();
+    final count = context.watch<AccountRepository>();
     return Scaffold(
         appBar: AppBar(
           title: const Text('Conta'),

@@ -3,7 +3,7 @@ import 'package:cryptocurrency/database/headers/db.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
 
-class CountRepository extends ChangeNotifier {
+class AccountRepository extends ChangeNotifier {
   late Database db;
   final List<PositionModel> _wallet = [];
   double _balance = 0;
@@ -11,7 +11,7 @@ class CountRepository extends ChangeNotifier {
   List<PositionModel> get wallet => _wallet;
   double get balance => _balance;
 
-  CountRepository() {
+  AccountRepository() {
     _initRepository();
   }
 
