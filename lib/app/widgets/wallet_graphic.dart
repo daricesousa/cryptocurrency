@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cryptocurrency/app/models/position_model.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +48,6 @@ class _WalletGraphicState extends State<WalletGraphic> {
       radius: index == indexBalance ? 100 : 80,
       titleStyle: const TextStyle(color: Colors.white),
     ));
-
     return slices;
   }
 

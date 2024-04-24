@@ -1,7 +1,9 @@
 import 'package:cryptocurrency/app/models/currency_model.dart';
+import 'package:cryptocurrency/app/repositories/account_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class CurrencyDetailPage extends StatefulWidget {
   final CurrencyModel currency;
@@ -15,18 +17,25 @@ class _CurrencyDetailPageState extends State<CurrencyDetailPage> {
   final real = NumberFormat.currency(locale: 'pt_BR', name: 'R\$');
   final form = GlobalKey<FormState>();
   final value = TextEditingController();
+  late AccountRepository accountRepository;
   double? quantity;
 
   void buy() {
     if (form.currentState!.validate()) {
-      //salvar a compra
-      Navigator.pop(context);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Compra realizada com sucesso"),
-          backgroundColor: Colors.green,
-        ),
-      );
+      accountRepository
+          .buyCurrency(
+            currency: widget.currency,
+            value: double.parse(value.text),
+          )
+          .then((_) => {
+                Navigator.pop(context),
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Compra realizada com sucesso"),
+                    backgroundColor: Colors.green,
+                  ),
+                ),
+              });
     }
   }
 
@@ -41,6 +50,7 @@ class _CurrencyDetailPageState extends State<CurrencyDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    accountRepository = Provider.of<AccountRepository>(context, listen: false);
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.currency.name),
@@ -85,6 +95,9 @@ class _CurrencyDetailPageState extends State<CurrencyDetailPage> {
                     if (value == null || value.isEmpty) {
                       return "Informe um valor";
                     }
+                    if (double.parse(value) > accountRepository.balance) {
+                      return "Saldo insuficiente";
+                    }
                     return null;
                   },
                 ),
@@ -97,9 +110,7 @@ class _CurrencyDetailPageState extends State<CurrencyDetailPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
-                        onPressed: () {
-                          buy();
-                        },
+                        onPressed: buy,
                         child: const Text("Comprar"),
                       ),
                     ],

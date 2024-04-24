@@ -41,8 +41,8 @@ class DB {
   String get _wallet => '''
   CREATE TABLE wallet(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    abbreviation TEXT,
-    currency TEXT,
+    currencyAbbreviation TEXT,
+    currencyName TEXT,
     quantity TEXT    
   );
 ''';
@@ -52,10 +52,16 @@ class DB {
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     date INT,
     type TEXT,
-    currency TEXT,
-    abbreviation TEXT,
+    currencyName TEXT,
+    currencyAbbreviation TEXT,
     value REAL,
     quantity TEXT   
   );
 ''';
+}
+
+enum DBTables {
+  account,
+  wallet,
+  history,
 }

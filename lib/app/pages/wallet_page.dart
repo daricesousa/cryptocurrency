@@ -13,14 +13,13 @@ class WalletPage extends StatefulWidget {
 }
 
 class _WalletPageState extends State<WalletPage> {
-  double totalWallet = 0;
   double balance = 0;
   late NumberFormat numberFormat;
   late AccountRepository accountRepository;
 
-  void setTotalWallet() {
+  double get setTotalWallet {
     final walletList = accountRepository.wallet;
-    totalWallet = walletList.fold(
+    return walletList.fold(
         balance,
         (total, position) =>
             total + (position.quantity * position.currency.price));
@@ -31,7 +30,6 @@ class _WalletPageState extends State<WalletPage> {
     numberFormat = context.watch<AppSettings>().numberFormat;
     accountRepository = context.watch<AccountRepository>();
     balance = accountRepository.balance;
-    setTotalWallet();
     return Scaffold(
         body: SingleChildScrollView(
       child: Padding(
@@ -43,14 +41,15 @@ class _WalletPageState extends State<WalletPage> {
               "Valor da carteira",
               style: TextStyle(fontSize: 18),
             ),
-            Text(
-              numberFormat.format(totalWallet),
-              style: const TextStyle(
-                fontSize: 35,
-                fontWeight: FontWeight.w700,
-                letterSpacing: 1.2,
+            if (!accountRepository.loading)
+              Text(
+                numberFormat.format(setTotalWallet),
+                style: const TextStyle(
+                  fontSize: 35,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 1.2,
+                ),
               ),
-            ),
             loadGraphic()
           ],
         ),
@@ -59,6 +58,10 @@ class _WalletPageState extends State<WalletPage> {
   }
 
   loadGraphic() {
+    if (accountRepository.loading) {
+      return const SizedBox(
+          height: 200, child: Center(child: CircularProgressIndicator()));
+    }
     return WalletGraphic(
       wallet: accountRepository.wallet,
       balance: balance,
