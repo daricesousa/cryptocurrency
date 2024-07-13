@@ -1,14 +1,18 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cryptocurrency/app/models/position_model.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class WalletGraphic extends StatefulWidget {
   final List<PositionModel> wallet;
   final double balance;
+  final NumberFormat numberFormat;
   const WalletGraphic({
     Key? key,
     required this.wallet,
     required this.balance,
+    required this.numberFormat,
   }) : super(key: key);
 
   @override
@@ -88,7 +92,8 @@ class _WalletGraphicState extends State<WalletGraphic> {
         Column(
           children: [
             Text(graphicLabel),
-            Text(graphicValue?.toStringAsFixed(0) ?? ''),
+            if (graphicValue != null)
+              Text(widget.numberFormat.format(graphicValue)),
           ],
         )
       ],

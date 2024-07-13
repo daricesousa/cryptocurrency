@@ -12,11 +12,6 @@ class CountPage extends StatefulWidget {
 }
 
 class _CountPageState extends State<CountPage> {
-  // void deposit(double value) {
-  //   final count = context.watch<CountRepository>();
-  //   count.setBalance(value + count.balance);
-  // }
-
   @override
   Widget build(BuildContext context) {
     final numberFormat = context.watch<AppSettings>().numberFormat;

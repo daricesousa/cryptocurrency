@@ -27,7 +27,7 @@ class DB {
   Future _onCreate(Database db, int version) async {
     await db.execute(_account);
     await db.execute(_wallet);
-    await db.execute(_history);
+    await db.execute(_historic);
     await db.insert('account', {'balance': 0});
   }
 
@@ -47,8 +47,8 @@ class DB {
   );
 ''';
 
-  String get _history => '''
-  CREATE TABLE history(
+  String get _historic => '''
+  CREATE TABLE historic(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     date INT,
     type TEXT,
@@ -63,5 +63,5 @@ class DB {
 enum DBTables {
   account,
   wallet,
-  history,
+  historic,
 }

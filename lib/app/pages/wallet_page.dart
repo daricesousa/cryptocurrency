@@ -1,5 +1,6 @@
 import 'package:cryptocurrency/app/repositories/account_repository.dart';
 import 'package:cryptocurrency/app/widgets/wallet_graphic.dart';
+import 'package:cryptocurrency/app/widgets/wallet_historic.dart';
 import 'package:cryptocurrency/configs/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -30,6 +31,14 @@ class _WalletPageState extends State<WalletPage> {
     numberFormat = context.watch<AppSettings>().numberFormat;
     accountRepository = context.watch<AccountRepository>();
     balance = accountRepository.balance;
+    if (accountRepository.loading) {
+      return const Scaffold(
+        body: Center(
+          child: SizedBox(
+              height: 200, child: Center(child: CircularProgressIndicator())),
+        ),
+      );
+    }
     return Scaffold(
         body: SingleChildScrollView(
       child: Padding(
@@ -41,16 +50,19 @@ class _WalletPageState extends State<WalletPage> {
               "Valor da carteira",
               style: TextStyle(fontSize: 18),
             ),
-            if (!accountRepository.loading)
-              Text(
-                numberFormat.format(setTotalWallet),
-                style: const TextStyle(
-                  fontSize: 35,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 1.2,
-                ),
+            Text(
+              numberFormat.format(setTotalWallet),
+              style: const TextStyle(
+                fontSize: 35,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 1.2,
               ),
-            loadGraphic()
+            ),
+            loadGraphic(),
+            const SizedBox(
+              height: 50,
+            ),
+            loadHistoric(),
           ],
         ),
       ),
@@ -58,13 +70,17 @@ class _WalletPageState extends State<WalletPage> {
   }
 
   loadGraphic() {
-    if (accountRepository.loading) {
-      return const SizedBox(
-          height: 200, child: Center(child: CircularProgressIndicator()));
-    }
     return WalletGraphic(
       wallet: accountRepository.wallet,
       balance: balance,
+      numberFormat: numberFormat,
+    );
+  }
+
+  loadHistoric() {
+    return WalletHistoric(
+      numberFormat: numberFormat,
+      historic: accountRepository.historic,
     );
   }
 }
